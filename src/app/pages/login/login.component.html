@@ -1,0 +1,24 @@
+<div class="content">
+    <div class="brand">
+        <a class="link" routerLink="/index">AdminPanel</a>
+    </div>
+    <form #loginform="ngForm" (ngSubmit)="onSubmit(loginform)" autocomplete="off">
+        <h2 class="login-title">Log in</h2>
+        <input type="hidden" name="UserId" #UserId="ngModel" [(ngModel)]="loginService.selectedUser.UserId">
+        <div class="form-group">
+            <div class="input-group-icon right">
+                <div class="input-icon"><i class="fa fa-envelope"></i></div>
+                <input class="form-control" type="text" #UserName="ngModel" [(ngModel)]="loginService.selectedUser.UserName" name="UserName" placeholder="UserName" autocomplete="off">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group-icon right">
+                <div class="input-icon"><i class="fa fa-lock font-16"></i></div>
+                <input class="form-control" type="password" #Password="ngModel" [(ngModel)]="loginService.selectedUser.Password" name="Password" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-info btn-block" type="submit">Login</button>
+        </div>
+    </form>
+</div>

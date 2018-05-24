@@ -1,0 +1,84 @@
+<div id="sidebar-collapse">
+    <div class="admin-block d-flex">
+        <div class="admin-info">
+            <div class="font-strong">{{appModel.ClientName}}</div><small>Administrator</small></div>
+    </div>
+    <ul class="side-menu metismenu">
+        <li *ngFor="let menu of menuService.menuList" routerLinkActive="active" ng-reflect-router-link-active="active">
+            <div *ngIf="menu.IsChild == true; then hasChild else Parent"> ... </div>
+            <ng-template #hasChild>
+                <a href="#{{menu.MenuId}}" data-toggle="collapse" aria-expanded="false">
+                    <i class="sidebar-item-icon {{menu.MenuClassIcon}}"></i>
+                    <span class="nav-label">{{menu.MenuName}}</span>
+                </a>
+                <ul class="nav-2-level collapse" id="{{menu.MenuId}}" routerLinkActive="in" ng-reflect-router-link-active="in">
+                    <li *ngFor="let cmenu of menu.childmenu">                                                            
+                        <a routerLinkActive="active" routerLink="/{{cmenu.ActionName | lowercase}}">{{cmenu.MenuName}}</a>
+                    </li>
+                </ul> 
+            </ng-template>
+            <ng-template #Parent>
+                <a routerLink="/{{menu.ActionName}}" routerLinkActive="active">
+                    <i class="sidebar-item-icon {{menu.MenuClassIcon}}"></i>
+                    <span class="nav-label">{{menu.MenuName}}</span>
+                </a>
+            </ng-template>
+        </li>
+        <li>
+            <a routerLinkActive="active" routerLink="/index">
+                <i class="sidebar-item-icon fa fa-th-large"></i>
+                <span class="nav-label">Dashboard</span>
+            </a>
+        </li>
+        <li routerLinkActive="active">
+            <a href="javascript:;">
+                <i class="sidebar-item-icon fa fa-bookmark"></i>
+                <span class="nav-label">Basic UI</span>
+                <i class="fa fa-angle-left arrow"></i>
+            </a>
+            <ul class="nav-2-level collapse" routerLinkActive="in">
+                <li>
+                    <a routerLink="/ui/colors" routerLinkActive="active">Colors</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/typography" routerLinkActive="active">Typography</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/panels" routerLinkActive="active">Panels</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/buttons" routerLinkActive="active">Buttons</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/tabs" routerLinkActive="active">Tabs</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/alerts" routerLinkActive="active">Alerts &amp; Tooltips</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/badges_progress" routerLinkActive="active">Badges &amp; Progress</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/lists" routerLinkActive="active">List</a>
+                </li>
+                <li>
+                    <a routerLink="/ui/cards" routerLinkActive="active">Card</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<style>
+    a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\25BA';    
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: '\25BC';
+}
+</style>
+

@@ -1,0 +1,127 @@
+<div class="page-heading">
+    <h1 class="page-title">Add/Edit Category</h1>
+</div>
+<div class="page-content fade-in-up">
+    <div class="ibox">
+        <div class="ibox-head">
+            <div class="ibox-title">&nbsp;</div>
+            <div class="ibox-tools">
+                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+        </div>
+        <div class="ibox-body">
+            <form class="form-horizontal" #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
+                <input type="hidden" name="CategoryId" #CategoryId="ngModel" [(ngModel)]="categoryService.selectedCategory.CategoryId">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Category</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" name="CategoryName" #CategoryName="ngModel" [(ngModel)]="categoryService.selectedCategory.CategoryName"
+                            placeholder="Category Name" required>
+                        <div class="validation-error" *ngIf="CategoryName.invalid && CategoryName.touched">Category name is required.</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Sequence No.</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" name="SequenceNo" #SequenceNo="ngModel" [(ngModel)]="categoryService.selectedCategory.SequenceNo"
+                            placeholder="Sequence No." required type="number">
+                        <div class="validation-error" *ngIf="SequenceNo.invalid && SequenceNo.touched">Sequence number is required.</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Description</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" name="Description" #Description="ngModel" [(ngModel)]="categoryService.selectedCategory.Description"
+                            placeholder="Description" aria-rowcount="5">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Image</label>
+                    <div class="col-sm-10" *ngIf="categoryService.selectedCategory.Image != ''; then showImage else showImageUpload">...</div>
+                    <ng-template #showImage>
+                        <div class="col-sm-10" style="margin-top: 20px;" id="divShowImage">
+                            <img src="{{categoryService.selectedCategory.Image}}" id="displayCategoryImage" alt="X" style="height: 100px; width: 100px; float: left; background: #999;">
+                            <a style="color: #999; float: left; margin-top: -20px; background: black; width: 19px; text-align: center;" id="cnlImgIcon" href="javascript:void(0);" (click)="deleteCategoryImage()">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </div>
+                        <div draggable="true" ngClass="{{dragAreaClass}}" id="divUploadImage" style="display: none;" class="col-sm-10">
+                            <div class="row">
+                                <div class="col-md-12 text-center" >
+                                    <a href="javascript:void(0)" (click)="file.click()" >
+                                        Click to browse 
+                                    </a>
+                                    Or Drag & Drop to upload your image file
+                                    <input type="file" #file (change)="onFileChange($event)" style="display:none" />
+                                </div>
+                            </div>
+                            <div class="row">    
+                                <ul style="width: 100%; text-align: right; list-style-type: none; font-size: 15px;">
+                                    <li>Extension: .jpg/.png/.jpeg image file only.</li>
+                                    <li>Dimensions: Minimum acceptable dimension is 100 x 100 pixels.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template #showImageUpload>
+                        <div class="col-sm-10" style="margin-top: 20px; display: none;" id="divShowImage">
+                            <img src="" id="displayCategoryImage" alt="X" style="height: 100px; width: 100px; float: left; background: #999;">
+                            <a style="color: #999; float: left; margin-top: -20px; background: black; width: 19px; text-align: center;" id="cnlImgIcon" href="javascript:void(0);" (click)="deleteCategoryImage()">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </div>
+                        <div draggable="true" ngClass="{{dragAreaClass}}" id="divUploadImage" class="col-sm-10">
+                            <div class="row">
+                                <div class="col-md-12 text-center" >
+                                    <a href="javascript:void(0)" (click)="file.click()" >
+                                        Click to browse 
+                                    </a>
+                                    Or Drag & Drop to upload your image file
+                                    <input type="file" #file (change)="onFileChange($event)" style="display:none" />
+                                </div>
+                            </div>
+                            <div class="row">    
+                                <ul style="width: 100%; text-align: right; list-style-type: none; font-size: 15px;">
+                                    <li>Extension: .jpg/.png/.jpeg image file only.</li>
+                                    <li>Dimensions: Minimum acceptable dimension is 100 x 100 pixels.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2 col-form-label"></div>
+                    <div class="col-sm-10">
+                        <div class="error" *ngIf="errors.length > 0">    
+                            <ul>
+                                <li *ngFor="let err of errors">{{err}}</li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10 ml-sm-auto">
+                        <button [disabled]="!categoryForm.valid"  class="btn btn-primary btn-fix" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .error{ color: #f00; }
+    .dragarea{
+        font-size: 24px;
+        border: 3px solid #bbb; 
+        padding: 20px ;
+        background-color: #fff;
+        color: #bbb;
+    }
+    .droparea{
+        font-size: 24px;
+        border: 3px dashed #bbb; 
+        padding: 20px ;
+        background-color: #eff;
+        color: #aaa;
+    }
+</style>
